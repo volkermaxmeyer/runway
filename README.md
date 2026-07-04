@@ -4,7 +4,9 @@ macOS-Menubar-App. Zeigt den Kontext-Füllstand aller aktiven Claude-Code-Sessio
 
 **Status:** V1.1 „Runway" seit 2026-07-04. Vorher: token-tracker (V1, AI Makers Club Week 002 Submission, 2026-05-15).
 
-**Doku & Projektkontext:** `1-Projects/token-tracker/` im Obsidian-Vault — enthält PRD, CLAUDE.md, AMC-Brief-Referenz.
+**Doku & Projektkontext:** `1-Projects/Runway/` im Obsidian-Vault — enthält PRD, CLAUDE.md (inkl. Entscheidungs-Log), AMC-Brief-Referenz.
+
+**Repository:** GitHub `volkermaxmeyer/runway` (privat) — https://github.com/volkermaxmeyer/runway
 
 ## Installation / Betrieb
 

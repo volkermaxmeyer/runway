@@ -25,6 +25,7 @@ launchctl kickstart -k gui/$(id -u)/com.volkermaxmeyer.runway  # neu starten
 - **Bei neuen Claude-Modellen:** `CONTEXT_WINDOWS` in `runway.py` prüfen/ergänzen. Unbekannte Modelle fallen konservativ auf 200K zurück (Anzeige dann zu hoch — auffällig, aber ungefährlich).
 - Berechnung wurde 2026-07-04 gegen `/context` validiert (< 1 Prozentpunkt Abweichung).
 
-## Doku
+## Doku & Versionierung
 
-PRD und Projekt-Historie: Obsidian-Vault `1-Projects/token-tracker/` (Ordnername bewusst alt gelassen, damit Links nicht brechen). V1 hieß "token-tracker" (AI Makers Club Week 002), seit V1.1 (2026-07-04) "Runway".
+- PRD, Projekt-Historie und Entscheidungs-Log: Obsidian-Vault `1-Projects/Runway/`. V1 hieß "token-tracker" (AI Makers Club Week 002), seit V1.1 (2026-07-04) "Runway".
+- Git-Repo mit Remote **GitHub `volkermaxmeyer/runway` (privat)**. Nach Änderungen committen und pushen.
