@@ -1,0 +1,30 @@
+# Runway — Projekt-Kontext
+
+macOS-Menubar-App: zeigt den Kontext-Füllstand aller aktiven Claude-Code-Sessions (● / 🟡 / 🔴 + Prozent), warnt pro Session bei 60%/80%. Single-User-Tool für Volkers Mac, bewusst einfach gehalten — kein Over-Engineering.
+
+## Struktur
+
+- `runway.py` — die komplette App (single-file, rumps)
+- `setup.py` — py2app-Konfiguration fürs App-Bundle
+- `make_icon.py` — erzeugt `icon.icns` (Landebahn-Motiv, via pillow)
+- Installiert: `/Applications/Runway.app`, Autostart via `~/Library/LaunchAgents/com.volkermaxmeyer.runway.plist`
+
+## Bauen & Deployen
+
+```bash
+./venv/bin/python runway.py                                  # Entwicklung: direkt starten
+./venv/bin/python setup.py py2app                            # Bundle bauen → dist/Runway.app
+pkill -x Runway; ditto dist/Runway.app /Applications/Runway.app
+launchctl kickstart -k gui/$(id -u)/com.volkermaxmeyer.runway  # neu starten
+```
+
+`build/` und `dist/` sind Wegwerf-Artefakte (in .gitignore).
+
+## Wartung
+
+- **Bei neuen Claude-Modellen:** `CONTEXT_WINDOWS` in `runway.py` prüfen/ergänzen. Unbekannte Modelle fallen konservativ auf 200K zurück (Anzeige dann zu hoch — auffällig, aber ungefährlich).
+- Berechnung wurde 2026-07-04 gegen `/context` validiert (< 1 Prozentpunkt Abweichung).
+
+## Doku
+
+PRD und Projekt-Historie: Obsidian-Vault `1-Projects/token-tracker/` (Ordnername bewusst alt gelassen, damit Links nicht brechen). V1 hieß "token-tracker" (AI Makers Club Week 002), seit V1.1 (2026-07-04) "Runway".

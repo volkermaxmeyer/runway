@@ -1,0 +1,8 @@
+venv/
+build/
+dist/
+__pycache__/
+icon.iconset/
+.DS_Store
+.eggs/
+*.egg-info/
