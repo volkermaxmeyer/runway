@@ -32,6 +32,8 @@ ditto dist/Runway.app /Applications/Runway.app
 - Kontextfenster pro Modell: Opus/Sonnet/Fable/Mythos → 1M, Haiku → 200K, unbekannt → 200K (konservativ)
 - Projektname stammt aus dem `cwd`-Feld im Session-Log
 - Notifications bei 60% (gelb) und 80% (rot), pro Session einzeln, einmal pro Schwellen-Übergang
+- Sessions ohne Aktivität seit 10 Minuten verschwinden automatisch aus Menubar und Dropdown
+- **Erste Inbetriebnahme:** Bei der ersten Warnung fragt macOS nach Mitteilungs-Erlaubnis für Runway — erlauben, sonst kommen Warnungen nicht durch
 
 ## Tech
 
