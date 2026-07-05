@@ -6,7 +6,7 @@ macOS-Menubar-App: zeigt den Kontext-Füllstand aller aktiven Claude-Code-Sessio
 
 - `runway.py` — die komplette App (single-file, rumps)
 - `setup.py` — py2app-Konfiguration fürs App-Bundle
-- `make_icon.py` — erzeugt `icon.icns` (Landebahn-Motiv, via pillow)
+- `make_icon.py` — erzeugt `icon.icns` aus `icon_source.png` (Sneaker-Motiv, via pillow)
 - Installiert: `/Applications/Runway.app`, Autostart via Login Item (Systemeinstellungen → Anmeldeobjekte). Der frühere LaunchAgent wurde 2026-07-05 entfernt (lief parallel zum Login Item → doppeltes Menubar-Icon).
 
 ## Bauen & Deployen

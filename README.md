@@ -2,7 +2,7 @@
 
 macOS-Menubar-App. Zeigt den Kontext-Füllstand aller aktiven Claude-Code-Sessions (● / 🟡 / 🔴 + Prozent) und benachrichtigt pro Session bei Schwellen-Überschreitung (60% / 80%).
 
-**Status:** V1.1 „Runway" seit 2026-07-04. Vorher: token-tracker (V1, AI Makers Club Week 002 Submission, 2026-05-15).
+**Status:** V1.2.0 seit 2026-07-05 (Session-Anzahl in der Menubar). Davor: V1.1.1 (eigenes Sneaker-Icon, 2026-07-05), V1.1 „Runway" (2026-07-04), token-tracker (V1, AI Makers Club Week 002 Submission, 2026-05-15). Releases sind git-getaggt.
 
 **Doku & Projektkontext:** `1-Projects/Runway/` im Obsidian-Vault — enthält PRD, CLAUDE.md (inkl. Entscheidungs-Log), AMC-Brief-Referenz.
 
@@ -11,8 +11,8 @@ macOS-Menubar-App. Zeigt den Kontext-Füllstand aller aktiven Claude-Code-Sessio
 ## Installation / Betrieb
 
 - App: `/Applications/Runway.app` (Menubar-only, kein Dock-Icon)
-- Autostart: LaunchAgent `~/Library/LaunchAgents/com.volkermaxmeyer.runway.plist` (KeepAlive)
-- Menubar zeigt die **vollste** aktive Session; Klick öffnet Dropdown mit allen aktiven Sessions (Projektname, %, absolute Tokens)
+- Autostart: Login Item (Systemeinstellungen → Anmeldeobjekte). Kein LaunchAgent — der frühere lief parallel zum Login Item und erzeugte ein doppeltes Menubar-Icon (entfernt 2026-07-05)
+- Menubar zeigt die **vollste** aktive Session, bei mehreren Sessions mit Anzahl (z.B. „🟡 72% · 3" — Max, keine Summe); Klick öffnet Dropdown mit allen aktiven Sessions (Projektname, %, absolute Tokens)
 
 ## Entwicklung
 
@@ -21,8 +21,11 @@ cd ~/tools/runway
 ./venv/bin/python runway.py          # direkt starten (ohne App-Bundle)
 ./venv/bin/python make_icon.py       # icon.icns neu erzeugen
 ./venv/bin/python setup.py py2app    # App-Bundle bauen → dist/Runway.app
-ditto dist/Runway.app /Applications/Runway.app
+pkill -x Runway; ditto dist/Runway.app /Applications/Runway.app
+open /Applications/Runway.app
 ```
+
+Release: Version in `setup.py` anheben, bauen, installieren, committen, Tag `vX.Y.Z` pushen.
 
 ## Funktionsweise
 
