@@ -134,7 +134,8 @@ class Runway(rumps.App):
             return
 
         top = sessions[0]
-        self.title = f"{icon_for(top['pct'])} {top['pct']}%"
+        count = f" · {len(sessions)}" if len(sessions) > 1 else ""
+        self.title = f"{icon_for(top['pct'])} {top['pct']}%{count}"
 
         items = []
         for s in sessions:
