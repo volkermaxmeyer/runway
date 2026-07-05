@@ -7,7 +7,7 @@ OPTIONS = {
         "CFBundleName": "Runway",
         "CFBundleDisplayName": "Runway",
         "CFBundleIdentifier": "com.volkermaxmeyer.runway",
-        "CFBundleShortVersionString": "1.0.0",
+        "CFBundleShortVersionString": "1.1.1",
         "LSUIElement": True,  # Menubar-App: kein Dock-Icon
     },
     "packages": ["rumps"],

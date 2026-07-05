@@ -7,7 +7,7 @@ macOS-Menubar-App: zeigt den Kontext-Füllstand aller aktiven Claude-Code-Sessio
 - `runway.py` — die komplette App (single-file, rumps)
 - `setup.py` — py2app-Konfiguration fürs App-Bundle
 - `make_icon.py` — erzeugt `icon.icns` (Landebahn-Motiv, via pillow)
-- Installiert: `/Applications/Runway.app`, Autostart via `~/Library/LaunchAgents/com.volkermaxmeyer.runway.plist`
+- Installiert: `/Applications/Runway.app`, Autostart via Login Item (Systemeinstellungen → Anmeldeobjekte). Der frühere LaunchAgent wurde 2026-07-05 entfernt (lief parallel zum Login Item → doppeltes Menubar-Icon).
 
 ## Bauen & Deployen
 
@@ -15,7 +15,7 @@ macOS-Menubar-App: zeigt den Kontext-Füllstand aller aktiven Claude-Code-Sessio
 ./venv/bin/python runway.py                                  # Entwicklung: direkt starten
 ./venv/bin/python setup.py py2app                            # Bundle bauen → dist/Runway.app
 pkill -x Runway; ditto dist/Runway.app /Applications/Runway.app
-launchctl kickstart -k gui/$(id -u)/com.volkermaxmeyer.runway  # neu starten
+open /Applications/Runway.app                                # neu starten
 ```
 
 `build/` und `dist/` sind Wegwerf-Artefakte (in .gitignore).
