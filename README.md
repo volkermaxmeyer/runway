@@ -22,6 +22,7 @@ cd ~/tools/runway
 ./venv/bin/python make_icon.py       # icon.icns neu erzeugen
 ./venv/bin/python setup.py py2app    # App-Bundle bauen → dist/Runway.app
 pkill -x Runway; ditto dist/Runway.app /Applications/Runway.app
+touch /Applications/Runway.app   # Pflicht: ditto lässt das Bundle-Datum unverändert → macOS cached sonst das alte Icon
 open /Applications/Runway.app
 ```
 

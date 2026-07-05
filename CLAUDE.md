@@ -15,6 +15,7 @@ macOS-Menubar-App: zeigt den Kontext-Füllstand aller aktiven Claude-Code-Sessio
 ./venv/bin/python runway.py                                  # Entwicklung: direkt starten
 ./venv/bin/python setup.py py2app                            # Bundle bauen → dist/Runway.app
 pkill -x Runway; ditto dist/Runway.app /Applications/Runway.app
+touch /Applications/Runway.app                               # Pflicht: ditto lässt das Bundle-Datum unverändert → macOS cached sonst das alte Icon
 open /Applications/Runway.app                                # neu starten
 ```
 
