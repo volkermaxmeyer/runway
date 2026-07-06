@@ -4,7 +4,7 @@ A tiny macOS menubar app that shows how full the context window of every active 
 
 When you run several Claude Code sessions, you can't see how close any of them is to filling its context window until it starts dropping earlier messages. Runway makes that visible at a glance (● / 🟡 / 🔴 + percent) and warns you per session at 60% and 80%, so you can wrap up or start fresh in time.
 
-> **📸 Screenshot coming soon.** _(TODO: capture the menubar badge + open dropdown, save as `docs/screenshot.png`, then replace this line with:_ `![Runway in the menubar](docs/screenshot.png)`_.)_
+![Runway in the menubar](docs/screenshot.png)
 
 ## What it looks like
 
