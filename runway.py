@@ -10,7 +10,10 @@ import rumps
 
 PROJECTS_DIR = Path.home() / ".claude" / "projects"
 POLL_INTERVAL = 15
-ACTIVE_WINDOW_SECONDS = 10  # Log-Datei muss zusätzlich frisch sein
+# Reiner Scan-Filter, keine Aktiv-Entscheidung: ob eine Session aktiv ist, bestimmt
+# allein der Prozess-Check (running_claude_cwds). Das Fenster verhindert nur, dass
+# jede alte Log-Datei im Projects-Ordner mitgelesen wird.
+SCAN_WINDOW_SECONDS = 24 * 60 * 60
 
 THRESHOLD_YELLOW = 60
 THRESHOLD_RED = 80
@@ -127,21 +130,27 @@ def running_claude_cwds():
 
 
 def find_active_sessions():
-    cutoff = time.time() - ACTIVE_WINDOW_SECONDS
     active_cwds = running_claude_cwds()
     if not active_cwds:
         return []
 
-    sessions = []
+    scan_cutoff = time.time() - SCAN_WINDOW_SECONDS
+    latest_by_cwd = {}  # cwd -> (mtime, session); nur die jüngste Datei pro cwd zählt
     for path in glob.glob(str(PROJECTS_DIR / "**" / "*.jsonl"), recursive=True):
         try:
-            if os.path.getmtime(path) < cutoff:
+            mtime = os.path.getmtime(path)
+            if mtime < scan_cutoff:
                 continue
             session = read_session(path)
         except OSError:
             continue
-        if session and session["project_cwd"] in active_cwds:
-            sessions.append(session)
+        if not session or session["project_cwd"] not in active_cwds:
+            continue
+        cwd = session["project_cwd"]
+        if cwd not in latest_by_cwd or mtime > latest_by_cwd[cwd][0]:
+            latest_by_cwd[cwd] = (mtime, session)
+
+    sessions = [s for _, s in latest_by_cwd.values()]
     sessions.sort(key=lambda s: s["pct"], reverse=True)
     return sessions
 
