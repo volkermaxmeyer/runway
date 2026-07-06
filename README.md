@@ -56,6 +56,7 @@ Runway is menubar-only (no Dock icon). For autostart, add it as a Login Item (Sy
 
 ## Version history
 
+- **V1.2.2** (2026-07-06) — fixed a flicker where open sessions briefly vanished if idle for a few seconds; process liveness is now the sole source of truth for "active"
 - **V1.2.1** (2026-07-06) — active-session detection now cross-checks running claude processes, fixing stale display after restart
 - **V1.2.0** (2026-07-05) — session count in the menubar
 - **V1.1.1** (2026-07-05) — custom sneaker icon
