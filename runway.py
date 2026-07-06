@@ -2,6 +2,7 @@
 import json
 import os
 import glob
+import subprocess
 import time
 from pathlib import Path
 
@@ -9,7 +10,7 @@ import rumps
 
 PROJECTS_DIR = Path.home() / ".claude" / "projects"
 POLL_INTERVAL = 15
-ACTIVE_WINDOW_SECONDS = 600  # Session gilt als aktiv, wenn Log < 10 Min alt
+ACTIVE_WINDOW_SECONDS = 10  # Log-Datei muss zusätzlich frisch sein
 
 THRESHOLD_YELLOW = 60
 THRESHOLD_RED = 80
@@ -85,14 +86,52 @@ def read_session(path):
     return {
         "path": path,
         "project": Path(cwd).name or cwd,
+        "project_cwd": cwd,
         "pct": pct,
         "total": total,
         "window": window,
     }
 
 
+def running_claude_pids():
+    try:
+        out = subprocess.check_output(
+            ["ps", "-Ao", "pid=,comm="], text=True, stderr=subprocess.DEVNULL
+        )
+    except subprocess.CalledProcessError:
+        return []
+    pids = []
+    for line in out.splitlines():
+        parts = line.split(None, 1)
+        if len(parts) == 2 and parts[1].strip() == "claude":
+            pids.append(parts[0].strip())
+    return pids
+
+
+def running_claude_cwds():
+    """cwd's aller laufenden `claude`-Prozesse (leeres Set, wenn keiner läuft)."""
+    pids = running_claude_pids()
+    cwds = set()
+    for pid in pids:
+        try:
+            out = subprocess.check_output(
+                ["lsof", "-a", "-p", pid, "-d", "cwd", "-Fn"],
+                text=True, stderr=subprocess.DEVNULL,
+            )
+        except subprocess.CalledProcessError:
+            continue
+        for line in out.splitlines():
+            if line.startswith("n"):
+                cwds.add(line[1:])
+    return cwds
+
+
 def find_active_sessions():
     cutoff = time.time() - ACTIVE_WINDOW_SECONDS
+    active_cwds = running_claude_cwds()
+    if not active_cwds:
+        return []
+
     sessions = []
     for path in glob.glob(str(PROJECTS_DIR / "**" / "*.jsonl"), recursive=True):
         try:
@@ -101,7 +140,7 @@ def find_active_sessions():
             session = read_session(path)
         except OSError:
             continue
-        if session:
+        if session and session["project_cwd"] in active_cwds:
             sessions.append(session)
     sessions.sort(key=lambda s: s["pct"], reverse=True)
     return sessions
