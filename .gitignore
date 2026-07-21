@@ -2,6 +2,7 @@ venv/
 build/
 dist/
 __pycache__/
+.pytest_cache/
 icon.iconset/
 .DS_Store
 .eggs/

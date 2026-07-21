@@ -5,7 +5,7 @@ VENV := ./venv/bin
 APP  := dist/Runway.app
 DEST := /Applications/Runway.app
 
-.PHONY: install build run icon clean
+.PHONY: install build run test icon clean
 
 # Bauen + nach /Applications deployen + neu starten. Der eine Befehl, der Drift verhindert.
 install: build
@@ -20,6 +20,9 @@ build: clean
 
 run:                            # ohne Bundle direkt starten (Menü zeigt dann 'dev')
 	$(VENV)/python runway.py
+
+test:                           # Regressionsnetz — setzt `pip install -r requirements-dev.txt` voraus
+	$(VENV)/pytest -q
 
 icon:
 	$(VENV)/python make_icon.py
