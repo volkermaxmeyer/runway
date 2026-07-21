@@ -56,6 +56,7 @@ Runway is menubar-only (no Dock icon). For autostart, add it as a Login Item (Sy
 
 ## Version history
 
+- **V1.2.3** (2026-07-21) — running version now shown in the menu (read from the bundle, so `setup.py` stays the single source); added a `Makefile` (`make install` builds and deploys to `/Applications` in one step) to prevent source/binary drift
 - **V1.2.2** (2026-07-06) — fixed a flicker where open sessions briefly vanished if idle for a few seconds; process liveness is now the sole source of truth for "active"
 - **V1.2.1** (2026-07-06) — active-session detection now cross-checks running claude processes, fixing stale display after restart
 - **V1.2.0** (2026-07-05) — session count in the menubar

@@ -2,6 +2,7 @@
 import json
 import os
 import glob
+import plistlib
 import subprocess
 import time
 from pathlib import Path
@@ -167,10 +168,24 @@ def fmt(n):
     return f"{n:,}".replace(",", ".")
 
 
+def app_version():
+    """Version aus dem Bundle (Info.plist) — einzige Quelle bleibt setup.py.
+    Direktstart via `python runway.py` hat kein Bundle → 'dev'."""
+    try:
+        plist = Path(__file__).resolve().parent.parent / "Info.plist"
+        if plist.exists():
+            with open(plist, "rb") as f:
+                return plistlib.load(f).get("CFBundleShortVersionString", "?")
+    except Exception:
+        pass
+    return "dev"
+
+
 class Runway(rumps.App):
     def __init__(self):
         super().__init__("● --", quit_button=None)
         self._thresholds = {}  # session-path -> zuletzt gemeldete Schwelle
+        self._version = app_version()
 
     @rumps.timer(POLL_INTERVAL)
     def update(self, _):
@@ -200,6 +215,7 @@ class Runway(rumps.App):
         for item in items:
             self.menu.add(item)
         self.menu.add(rumps.separator)
+        self.menu.add(rumps.MenuItem(f"Runway v{self._version}"))
         self.menu.add(rumps.MenuItem("Quit Runway", callback=rumps.quit_application))
 
     def _notify(self, sessions):
